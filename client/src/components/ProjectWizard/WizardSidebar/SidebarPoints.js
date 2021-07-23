@@ -75,9 +75,18 @@ const SidebarPoints = props => {
       ? classes.ruleTargetGreen
       : classes.ruleEarnedOrange;
 
+  // const changeTextSize = () => {};
+
   return (
     <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
-      <div className={earnedPointsColor || targetPointsColor}>{rule.value}</div>
+      <div
+        className={earnedPointsColor || targetPointsColor}
+        onChange={() => {
+          console.log("TEST");
+        }}
+      >
+        {rule.value}
+      </div>
       <h3 className={classes.ruleName}>
         {rule.name}
 
