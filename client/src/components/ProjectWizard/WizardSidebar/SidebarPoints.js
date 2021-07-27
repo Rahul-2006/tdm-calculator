@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
@@ -56,6 +56,7 @@ const SidebarPoints = props => {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const { rule, rulesConfig } = props;
+  const targetPointsRef = useRef();
 
   const opacityTest =
     rule.value && rule.value !== "0" ? "" : classes.lowOpacity;
@@ -76,14 +77,21 @@ const SidebarPoints = props => {
       : classes.ruleEarnedOrange;
 
   // const changeTextSize = () => {};
-
   useEffect(() => {
-    console.log("TEST");
-  }, [targetPointsColor]);
+    targetPointsRef.current.style.transform = "scale(1.2)";
+    setTimeout(function () {
+      targetPointsRef.current.style.transform = "scale(1.0)";
+    }, 120);
+  }, [rule.value]);
 
   return (
     <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
-      <div className={earnedPointsColor || targetPointsColor}>{rule.value}</div>
+      <div
+        className={earnedPointsColor || targetPointsColor}
+        ref={targetPointsRef}
+      >
+        {rule.value}
+      </div>
       <h3 className={classes.ruleName}>
         {rule.name}
 
