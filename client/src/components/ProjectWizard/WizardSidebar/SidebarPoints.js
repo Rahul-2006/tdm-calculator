@@ -11,14 +11,16 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
     marginBottom: 6,
-    color: ({ theme }) => theme.colorPrimary
+    color: ({ theme }) => theme.colorPrimary,
+    transition: "all .5s .5s ease-in-out"
   },
   ruleEarnedOrange: {
     fontSize: "100px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
     marginBottom: 6,
-    color: ({ theme }) => theme.colorEarnedPoints
+    color: ({ theme }) => theme.colorEarnedPoints,
+    transition: "all .5s .5s ease-in-out"
   },
   ruleName: {
     fontFamily: "Oswald, Calibri",
@@ -81,7 +83,7 @@ const SidebarPoints = props => {
     targetPointsRef.current.style.transform = "scale(1.2)";
     setTimeout(function () {
       targetPointsRef.current.style.transform = "scale(1.0)";
-    }, 120);
+    }, 250);
   }, [rule.value]);
 
   return (
