@@ -5,3 +5,5 @@ const publicCommentController = require("../controllers/public-comment.controlle
 module.exports = router;
 
 router.post("/", publicCommentController.post);
+
+console.log("blah");
