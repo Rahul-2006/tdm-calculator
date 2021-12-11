@@ -23,36 +23,37 @@ jobs:
   #         add_git_labels: true
   #         labels: description="TDM Calculator",maintained="tdm+cicd@hackforla.org"
 
-  build-artifact-v2:
-    runs-on: ubuntu-latest
-    container:
-      image: nclairesays/tdm-test:latest
-    steps:
-      - name: Directory cleanup
-        run: rm -rf ..?* .[!.]* *
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Build Artifact
-        run: |
-          pwd
-          ls -al
-          cd client
-          ls -al
-          npm run build
-          ls -al
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: tdmapp
-          path: /build/libs/
-      - name: Dump Env
-        run: |
-          env | sort
-          ls -la
-      - name: Cleanup
-        if: ${{ always() }}
-        run: |
-          rm -rf ..?* .[!.]* *
+  # doesn't work:
+  # build-artifact-v2:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: nclairesays/tdm-test:latest
+  #   steps:
+  #     - name: Directory cleanup
+  #       run: rm -rf ..?* .[!.]* *
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
+  #     - name: Build Artifact
+  #       run: |
+  #         pwd
+  #         ls -al
+  #         cd client
+  #         ls -al
+  #         npm run build
+  #         ls -al
+  #     - name: Upload Artifact
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: tdmapp
+  #         path: /build/
+  #     - name: Dump Env
+  #       run: |
+  #         env | sort
+  #         ls -la
+  #     - name: Cleanup
+  #       if: ${{ always() }}
+  #       run: |
+  #         rm -rf ..?* .[!.]* *
 
   install-and-build:
     runs-on: ubuntu-latest
@@ -60,10 +61,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cypress Install
-        uses: cypress-io/github-action@v2
-        with:
-          runTests: false
       - name: Install NPM
         uses: actions/setup-node@v2
         with:
@@ -79,7 +76,7 @@ jobs:
           pwd
           echo "inside current directory:"
           ls -al
-          cd build
+          cd ./build
           echo "inside build"
           ls -al
       - name: Save build folder
@@ -87,7 +84,7 @@ jobs:
         with:
           name: tdmapp
           if-no-files-found: error
-          path: build
+          path: ./build/
 
   cypress-run:
     runs-on: ubuntu-latest
@@ -146,7 +143,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: tdmapp
-          path: /__w/tdmapp/tdmapp/build/libs/
+          path: /__w/tdmapp/tdmapp/build/
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
