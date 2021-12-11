@@ -22,30 +22,31 @@ jobs:
           add_git_labels: true
           labels: description="TDM Calculator",maintained="tdm+cicd@hackforla.org"
   install-and-build:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Cypress Install
-      uses: cypress-io/github-action@v2
-      with:
-        runTests: false
-    - name: Install NPM
-      uses: actions/setup-node@v2
-      with:
-        node-version: "14"
-        cache: "npm"
-    - name: Install Modules and Build
-      run: |
-        cd ./server
-        npm install
-        cd ../client
-        npm install
-        npm run build
-    - name: Save build folder
-      uses: actions/upload-artifact@v2
-      with:
-        name: build
-        if-no-files-found: error
-        path: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress Install
+        uses: cypress-io/github-action@v2
+        with:
+          runTests: false
+      - name: Install NPM
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "npm"
+      - name: Install Modules and Build
+        run: |
+          cd ./server
+          npm install
+          cd ../client
+          npm install
+          npm run build
+      - name: Save build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
 
   cypress-run:
     runs-on: ubuntu-latest
