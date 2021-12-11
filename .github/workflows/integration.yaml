@@ -19,7 +19,7 @@ jobs:
       - name: Install Server Node Modules
         run: cd ./server && npm install
       - name: Install Client Node Modules
-        run: cd ../client  && npm install && cd ../cypress
+        run: cd ./client  && npm install
       # Install NPM dependencies, cache them correctly and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
