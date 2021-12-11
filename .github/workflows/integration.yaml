@@ -4,7 +4,7 @@ on:
     branches: [943-github-actions-cypress]
 
 jobs:
-  build-artfiact:
+  build-artifact:
     runs-on: ubuntu-latest
     name: build & push image with mssql base image
     steps:
