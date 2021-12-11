@@ -44,15 +44,17 @@ jobs:
           npm install
           npm run build
       - name: Save build folder
-        uses: actions/upload-artifact@v2
+        # uses: actions/upload-artifact@v2
         # with:
         #   name: build
         #   if-no-files-found: error
         #   path: build
         run: |
           pwd
+          echo "inside current directory:"
           ls -al
           cd build
+          echo "inside build"
           ls -al
 
   cypress-run:
