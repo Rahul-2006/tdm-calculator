@@ -8,11 +8,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Install maybe
+      - name: checkout directory
         run: pwd
-          ls
+          ls -al
+      - name: Install NPM
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "npm"
+      - name: Install Server Node Modules
+        run: cd ./server && npm install
+      - name: Install Client Node Modules
+        run: cd ../client  && npm install && cd ../cypress
+      # Install NPM dependencies, cache them correctly and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
