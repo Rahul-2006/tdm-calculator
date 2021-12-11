@@ -4,7 +4,7 @@ on:
     branches: [943-github-actions-cypress]
 
 jobs:
-  build-artfiact-tdmapp-test-docker:
+  build-artfiact:
     runs-on: ubuntu-latest
     name: build & push image with mssql base image
     steps:
@@ -23,6 +23,7 @@ jobs:
           labels: description="TDM Calculator",maintained="tdm+cicd@hackforla.org"
   install-and-build:
     runs-on: ubuntu-latest
+    # needs: build-artifact
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -44,14 +45,19 @@ jobs:
           npm run build
       - name: Save build folder
         uses: actions/upload-artifact@v2
-        with:
-          name: build
-          if-no-files-found: error
-          path: build
+        # with:
+        #   name: build
+        #   if-no-files-found: error
+        #   path: build
+        run: |
+          pwd
+          ls -al
+          cd build
+          ls -al
 
   cypress-run:
     runs-on: ubuntu-latest
-    needs: install-and-build
+    needs: build-artifact
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -60,6 +66,29 @@ jobs:
           ls -al
       - name: Start Database
         run: ./.github/start-db.sh
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          wait-on: "http://localhost:3000"
+      - name: Cleanup
+        if: ${{ always() }}
+        run: |
+          rm -rf ..?* .[!.]* *
+
+  cypress-run-v2:
+    runs-on: ubuntu-latest
+    needs: build-artifact
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: checkout directory
+        run: pwd
+          ls -al
+      - name: Start Database
+        run: ./.github/start-db.sh
+      - name: Start app
+        run: node server.js
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
