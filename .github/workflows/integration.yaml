@@ -4,23 +4,56 @@ on:
     branches: [943-github-actions-cypress]
 
 jobs:
-  build-artifact:
+  # commenting out because image is already available
+  # build-artifact:
+  #   runs-on: ubuntu-latest
+  #   name: build & push image with mssql base image
+  #   steps:
+  #     - name: Checkout repo
+  #       uses: actions/checkout@v2
+  #     - name: build-and-push-image
+  #       uses: docker/build-push-action@v1
+  #       with:
+  #         username: nclairesays
+  #         password: Dogfood!1
+  #         repository: nclairesays/tdm-test
+  #         dockerfile: ./Dockerfile
+  #         tag_with_ref: true
+  #         tag_with_sha: true
+  #         add_git_labels: true
+  #         labels: description="TDM Calculator",maintained="tdm+cicd@hackforla.org"
+
+  build-artifact-v2:
     runs-on: ubuntu-latest
-    name: build & push image with mssql base image
+    container:
+      image: nclairesays/tdm-test:latest
     steps:
-      - name: Checkout repo
+      - name: Directory cleanup
+        run: rm -rf ..?* .[!.]* *
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: build-and-push-image
-        uses: docker/build-push-action@v1
+      - name: Build Artifact
+        run: |
+          pwd
+          ls -al
+          cd client
+          ls -al
+          npm run build
+          ls -al
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          username: nclairesays
-          password: Dogfood!1
-          repository: nclairesays/tdm-test
-          dockerfile: ./Dockerfile
-          tag_with_ref: true
-          tag_with_sha: true
-          add_git_labels: true
-          labels: description="TDM Calculator",maintained="tdm+cicd@hackforla.org"
+          name: tdmapp
+          path: /build/libs/
+      - name: Dump Env
+        run: |
+          env | sort
+          ls -la
+      - name: Cleanup
+        if: ${{ always() }}
+        run: |
+          rm -rf ..?* .[!.]* *
+
   install-and-build:
     runs-on: ubuntu-latest
     # needs: build-artifact
@@ -43,23 +76,22 @@ jobs:
           cd ../client
           npm install
           npm run build
-      - name: Save build folder
-        # uses: actions/upload-artifact@v2
-        # with:
-        #   name: build
-        #   if-no-files-found: error
-        #   path: build
-        run: |
           pwd
           echo "inside current directory:"
           ls -al
           cd build
           echo "inside build"
           ls -al
+      - name: Save build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: tdmapp
+          if-no-files-found: error
+          path: build
 
   cypress-run:
     runs-on: ubuntu-latest
-    needs: build-artifact
+    needs: install-and-build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -80,7 +112,7 @@ jobs:
 
   cypress-run-v2:
     runs-on: ubuntu-latest
-    needs: build-artifact
+    needs: install-and-build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -101,35 +133,29 @@ jobs:
         run: |
           rm -rf ..?* .[!.]* *
 
-  # build-artifact-v2:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: nclairesays/tdm-test:latest
-  #   steps:
-  #     - name: Directory cleanup
-  #       run: rm -rf ..?* .[!.]* *
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v2
-  #     - name: Build Artifact
-  #       run: |
-  #         pwd
-  #         ls -al
-  #         cd client
-  #         ls -al
-  #         npm run build
-  #         ls -al
-  #     - name: Upload Artifact
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: tdmapp
-  #     - name: Dump Env
-  #       run: |
-  #         env | sort
-  #         ls -la
-  #     - name: Cleanup
-  #       if: ${{ always() }}
-  #       run: |
-  #         rm -rf ..?* .[!.]* *
+  cypress-run-v3:
+    runs-on: ubuntu-latest
+    needs: install-and-build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: checkout directory
+        run: pwd
+          ls -al
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tdmapp
+          path: /__w/tdmapp/tdmapp/build/libs/
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          wait-on: "http://localhost:3000"
+      - name: Cleanup
+        if: ${{ always() }}
+        run: |
+          rm -rf ..?* .[!.]* *
 
 # jobs:
 #   cypress-run:
