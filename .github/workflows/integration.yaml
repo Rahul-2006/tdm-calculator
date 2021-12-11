@@ -7,31 +7,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Install maybe
+        run: pwd
+          ls
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          #build: npm run build
-          #start: npm start
-          spec: cypress/integration/project-calculations-no-auths/barrington-condos.spec.js
-          wait-on: https://tdmdev.azurewebsites.net/
-          record: true
+          start: npm start
+          wait-on: "http://localhost:3000"
+        env: GITHUB_TOKEN
+# jobs:
+#   cypress-run:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v1
+#       - name: Cypress run
+#         uses: cypress-io/github-action@v2
+#         with:
+#           #build: npm run build
+#           #start: npm start
+#           spec: cypress/integration/project-calculations-no-auths/barrington-condos.spec.js
+#           wait-on: https://tdmdev.azurewebsites.net/
+#           record: true
 
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: 331838a7-bd77-4de8-9a2f-6ca0ecb30414
-          # pass GitHub token to allow accurately detecting a build vs a re-run build
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
-
-  # test-acceptance:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: tdmcalc/tdmapp:latest
-  #   env:
-  #     username: ${{ secrets.DOCKER_USERNAME }}
-  #     password: ${{ secrets.DOCKER_PASSWORD }}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - run: |
-  #         chmod +x ./acceptanceTest.sh
-  #         ./acceptanceTest.sh
+#         env:
+#           # pass the Dashboard record key as an environment variable
+#           CYPRESS_RECORD_KEY: 331838a7-bd77-4de8-9a2f-6ca0ecb30414
+#           # pass GitHub token to allow accurately detecting a build vs a re-run build
+#           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
