@@ -82,9 +82,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-        #   if-no-files-found: error
-        path: |
-          public
+          #   if-no-files-found: error
+          path: |
+            public
 
   cypress-run:
     runs-on: ubuntu-latest
