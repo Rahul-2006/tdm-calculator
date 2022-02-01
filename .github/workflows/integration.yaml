@@ -115,8 +115,14 @@ jobs:
         uses: actions/download-artifact@v2
       - name: Display structure of downloaded files
         run: ls -R
+      - name: Install bash
+        run: |
+          apt update
+          apt install bash
       - name: Start Database
-        run: ./.github/start-db.sh
+        run: |
+          chmod +x ./.github/start-db.sh
+          ./.github/start-db.sh
       # TODO: code below works sort of.. tests run in pipeline but no db?
       - name: Cypress run
         uses: cypress-io/github-action@v2
@@ -201,6 +207,8 @@ jobs:
         #   path: /__w/tdmapp/tdmapp/build/
       - name: Display structure of downloaded files
         run: ls -R
+      - name: Run server
+        run: ./server.js
       - name: Cypress run
         uses: cypress-io/github-action@v2.3.6
         with:
