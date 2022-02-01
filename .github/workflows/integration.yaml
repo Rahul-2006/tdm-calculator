@@ -9,25 +9,6 @@ env:
   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
 jobs:
-  # commenting out because image is already available
-  # build-artifact:
-  #   runs-on: ubuntu-latest
-  #   name: build & push image with mssql base image
-  #   steps:
-  #     - name: Checkout repo
-  #       uses: actions/checkout@v2
-  #     - name: build-and-push-image
-  #       uses: docker/build-push-action@v1
-  #       with:
-  #         username: nclairesays
-  #         password: Dogfood!1
-  #         repository: nclairesays/tdm-test
-  #         dockerfile: ./Dockerfile
-  #         tag_with_ref: true
-  #         tag_with_sha: true
-  #         add_git_labels: true
-  #         labels: description="TDM Calculator",maintained="tdm+cicd@hackforla.org"
-
   # doesn't work:
   # build-artifact-v2:
   #   runs-on: ubuntu-latest
@@ -66,24 +47,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Print versions
+      - name: Print npm and yarn versions
         run: |
           which npm
           npm --version
           which yarn
           yarn --version
 
-      - name: Install NPM
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "npm"
-      - name: Print versions
-        run: |
-          which npm
-          npm --version
-          which yarn
-          yarn --version
+      # - name: Install NPM
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: "14"
+      #     cache: "npm"
+      # - name: Print versions
+      #   run: |
+      #     which npm
+      #     npm --version
+      #     which yarn
+      #     yarn --version
       # only install the dependencies without running any tests from root folder
       - name: Cypress Install
         uses: cypress-io/github-action@v2
@@ -138,7 +119,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          working-directory: cypress
+          working-directory: /home/runner/work/tdm-calculator/tdm-calculator/cypress
           start: npm start-all-servers
       # # install dependencies and run the tests
       # - name: Cypress run
@@ -194,7 +175,7 @@ jobs:
         with:
           name: tdmapp
           # path: /__w/tdmapp/tdmapp/build/
-          path: /home/runner/work/tdm-calculator/tdm-calculator
+          path: /home/runner/work/tdm-calculator/tdm-calculator/build
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
