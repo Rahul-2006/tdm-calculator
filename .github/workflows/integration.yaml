@@ -86,16 +86,15 @@ jobs:
       - name: echo
         run: |
           pwd
-          echo "inside directory"
-          ls -al
-
-      # - name: Save build folder
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: build
-      #     if-no-files-found: error
-      #     path: |
-      #       build
+          echo "inside client directory"
+          ls -al ./client
+      - name: Save build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          if-no-files-found: error
+          path: |
+            ./client/build
 
   cypress-test:
     runs-on: ubuntu-latest
