@@ -85,11 +85,11 @@ jobs:
           ls -al
           echo "****ls -al inside build:***"
           ls -al ./build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          if-no-files-found: error
-          path: build
+        # uses: actions/upload-artifact@v2
+        # with:
+        #   name: build
+        #   if-no-files-found: error
+        #   path: build
 
   cypress-run:
     runs-on: ubuntu-latest
