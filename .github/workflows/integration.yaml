@@ -66,13 +66,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Print versions
+        run: |
+          which npm
+          npm --version
+          which yarn
+          yarn --version
+
       - name: Install NPM
         uses: actions/setup-node@v2
         with:
           node-version: "14"
           cache: "npm"
-      # only install the dependencies without running any tests
-      - name: Cypress run
+      - name: Print versions
+        run: |
+          which npm
+          npm --version
+          which yarn
+          yarn --version
+      # only install the dependencies without running any tests from root folder
+      - name: Cypress Install
         uses: cypress-io/github-action@v2
         with:
           runTests: false
@@ -85,6 +98,9 @@ jobs:
           npm run build
       - name: echo
         run: |
+          pwd
+          echo "inside root directory"
+          ls -al .
           pwd
           echo "inside client directory"
           ls -al ./client
@@ -109,10 +125,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-      - name: current directory
-        run: pwd
-          ls -al
-
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          working-directory: cypress
+          start: npm start-all-servers
       # # install dependencies and run the tests
       # - name: Cypress run
       #   uses: cypress-io/github-action@v2
@@ -130,49 +148,49 @@ jobs:
         run: |
           rm -rf ..?* .[!.]* *
 
-  cypress-run:
-    runs-on: ubuntu-latest
-    needs: install-and-build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: checkout directory
-        run: pwd
-          ls -al
-      - name: Start Database
-        run: ./.github/start-db.sh
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          start: npm start
-          wait-on: "http://localhost:3000"
-      - name: Cleanup
-        if: ${{ always() }}
-        run: |
-          rm -rf ..?* .[!.]* *
+  # cypress-run:
+  #   runs-on: ubuntu-latest
+  #   needs: install-and-build
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: checkout directory
+  #       run: pwd
+  #         ls -al
+  #     - name: Start Database
+  #       run: ./.github/start-db.sh
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v2
+  #       with:
+  #         start: npm start
+  #         wait-on: "http://localhost:3000"
+  #     - name: Cleanup
+  #       if: ${{ always() }}
+  #       run: |
+  #         rm -rf ..?* .[!.]* *
 
-  cypress-run-v2:
-    runs-on: ubuntu-latest
-    needs: install-and-build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: checkout directory
-        run: pwd
-          ls -al
-      - name: Start Database
-        run: ./.github/start-db.sh
-      - name: Start app
-        run: node server.js
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          start: npm start
-          wait-on: "http://localhost:3000"
-      - name: Cleanup
-        if: ${{ always() }}
-        run: |
-          rm -rf ..?* .[!.]* *
+  # cypress-run-v2:
+  #   runs-on: ubuntu-latest
+  #   needs: install-and-build
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: checkout directory
+  #       run: pwd
+  #         ls -al
+  #     - name: Start Database
+  #       run: ./.github/start-db.sh
+  #     - name: Start app
+  #       run: node server.js
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v2
+  #       with:
+  #         start: npm start
+  #         wait-on: "http://localhost:3000"
+  #     - name: Cleanup
+  #       if: ${{ always() }}
+  #       run: |
+  #         rm -rf ..?* .[!.]* *
 
   cypress-run-v3:
     runs-on: ubuntu-latest
