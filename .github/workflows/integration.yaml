@@ -110,24 +110,13 @@ jobs:
         uses: actions/download-artifact@v2
       - name: Display structure of downloaded files
         run: ls -R
+      # TODO: code below works sort of.. tests run in pipeline but no db?
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           install: true
           working-directory: ./cypress
           start: npm start-all-servers
-      # # install dependencies and run the tests
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     command: npm run expect -- --env lastName=Smith
-      #   env:
-      #     CYPRESS_firstName: Joe
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     start: npm start
-      #     wait-on: "http://localhost:3000"
       - name: Cleanup
         if: ${{ always() }}
         run: |
@@ -206,7 +195,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v2.3.6
         with:
           start: npm start
           wait-on: "http://localhost:3000"
