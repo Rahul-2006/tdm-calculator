@@ -79,6 +79,12 @@ jobs:
           echo "****ls -al inside build:***"
           ls -al ./build
       - name: Save build folder
+        run: |
+          pwd
+          echo "inside current directory:"
+          ls -al
+          echo "****ls -al inside build:***"
+          ls -al ./build
         uses: actions/upload-artifact@v2
         with:
           name: build
