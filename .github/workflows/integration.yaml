@@ -5,7 +5,7 @@ on:
 
 env:
   # pass GitHub token to allow accurately detecting a build vs a re-run build
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
 jobs:
