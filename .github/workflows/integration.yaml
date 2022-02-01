@@ -83,13 +83,19 @@ jobs:
           cd ../client
           npm install
           npm run build
-      - name: Save build folder
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          if-no-files-found: error
-          path: |
-            build
+      - name: echo
+        run: |
+          pwd
+          echo "inside directory"
+          ls -al
+
+      # - name: Save build folder
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: build
+      #     if-no-files-found: error
+      #     path: |
+      #       build
 
   cypress-test:
     runs-on: ubuntu-latest
