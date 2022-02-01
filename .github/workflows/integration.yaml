@@ -99,18 +99,25 @@ jobs:
       - name: echo
         run: |
           pwd
-          echo "inside root directory"
+          echo "****** inside root directory: ******"
           ls -al .
           pwd
-          echo "inside client directory"
+          echo "****** inside client directory ******"
           ls -al ./client
-      - name: Save build folder
+      - name: Save to build folder in root directory
         uses: actions/upload-artifact@v2
         with:
           name: build
           if-no-files-found: error
           path: |
             ./client/build
+      - name: Save to cypress folder in root directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress
+          if-no-files-found: error
+          path: |
+            ./cypress
 
   cypress-test:
     runs-on: ubuntu-latest
@@ -118,13 +125,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: checkout current directory
-        run: pwd
-          ls -al
       - name: Download build folders ⏬
         uses: actions/download-artifact@v2
         with:
           name: build
+      - name: List current directory
+        run: pwd
+          ls -al
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
