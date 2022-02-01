@@ -76,9 +76,8 @@ jobs:
           pwd
           echo "inside current directory:"
           ls -al
-          cd ./build
-          echo "inside build"
-          ls -al
+          echo "****ls -al inside build:***"
+          ls -al ./build
       - name: Save build folder
         uses: actions/upload-artifact@v2
         with:
