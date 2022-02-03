@@ -103,6 +103,21 @@ jobs:
   cypress-test:
     runs-on: ubuntu-latest
     needs: install-and-build
+    services: # Define Docker containers to use for this job.
+      backend-db: # Container ID for our database container
+        image: mcr.microsoft.com/mssql/server:2017-latest # Image to pull from Docker Hub
+        env:
+          MSSQL_PID: Express
+          SA_PASSWORD: Dogfood1!
+          SQL_SERVER_NAME: localhost
+          SQL_SERVER_PORT: 1434
+          SQL_DATABASE_NAME: tdmdev
+          SQL_USER_NAME: sa
+          SQL_PASSWORD: Dogfood1!
+          SQL_ENCRYPT: true
+          SQL_TRUST_SERVER_CERTIFICATE: true
+        ports:
+          - 1434:1433 # TCP port to expose on Docker container and host environment
     container:
       image: tdmcalc/tdmapp:latest
       credentials:
@@ -135,28 +150,7 @@ jobs:
         run: |
           rm -rf ..?* .[!.]* *
 
-  # cypress-run-v2:
-  #   runs-on: ubuntu-latest
-  #   needs: install-and-build
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: checkout directory
-  #       run: pwd
-  #         ls -al
-  #     - name: Start Database
-  #       run: ./.github/start-db.sh
-  #     - name: Start app
-  #       run: node server.js
-  #     - name: Cypress run
-  #       uses: cypress-io/github-action@v2
-  #       with:
-  #         start: npm start
-  #         wait-on: "http://localhost:3000"
-  #     - name: Cleanup
-  #       if: ${{ always() }}
-  #       run: |
-  #         rm -rf ..?* .[!.]* *
+          # node ./server.js
 
   cypress-run-v3:
     needs: install-and-build
@@ -208,7 +202,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: Run server
-        run: ./server.js
+        run: node ./server.js
       - name: Cypress run
         uses: cypress-io/github-action@v2.3.6
         with:
