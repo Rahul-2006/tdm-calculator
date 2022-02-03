@@ -150,7 +150,7 @@ jobs:
         run: |
           rm -rf ..?* .[!.]* *
 
-          # node ./server.js
+          # node ./server/server.js
 
   cypress-run-v3:
     needs: install-and-build
