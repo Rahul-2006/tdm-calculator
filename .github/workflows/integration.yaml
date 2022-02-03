@@ -130,10 +130,10 @@ jobs:
         uses: actions/download-artifact@v2
       - name: Display structure of downloaded files
         run: ls -R
-      - name: Install bash
-        run: |
-          apt update
-          apt install bash
+      # - name: Install bash
+      #   run: |
+      #     apt update
+      #     apt install bash
       - name: Start Database
         run: |
           chmod +x ./.github/start-db.sh
@@ -164,12 +164,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: checkout directory
-        run: pwd
+        run: |
+          pwd
           ls -al
+          ls -R
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
-          name: tdmapp
+          name: build
           path: /home/runner/work/tdm-calculator/tdm-calculator/build
       - name: Cypress run
         uses: cypress-io/github-action@v2
@@ -202,7 +204,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: Run server
-        run: node ./server.js
+        run: node ./server/server.js
       - name: Cypress run
         uses: cypress-io/github-action@v2.3.6
         with:
