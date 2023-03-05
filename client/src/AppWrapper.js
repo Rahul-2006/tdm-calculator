@@ -29,7 +29,7 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
-  const [checklistModalOpen, setChecklistModalOpen] = useState(true);
+  const [checklistModalOpen, setChecklistModalOpen] = useState(false);
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
 
