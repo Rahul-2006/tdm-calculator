@@ -98,6 +98,7 @@ const ProjectTableRow = ({
   //   const [csvData, setCsvData] = useState([]);
   //   const [projectRules, setProjectRules] = useState();
   const [projectData, setProjectData] = useState();
+  const [projectContextOpen, setProjectContextOpen] = useState(true);
 
   // Download and process rules once for both CSV and PDF rendering
   useEffect(() => {
@@ -176,31 +177,34 @@ const ProjectTableRow = ({
       <td className={classes.actionIcons}>
         {projectData && (
           <div>
-            <Popup
-              trigger={
-                <button>
-                  <FontAwesomeIcon
-                    icon={faEllipsisV}
-                    alt={`Show project context menu`}
-                  />
-                </button>
-              }
-              position="bottom center"
-              offsetX={-100}
-              on="click"
-              closeOnDocumentClick
-              arrow={false}
-            >
-              <ProjectContextMenu
-                project={project}
-                handleCopyModalOpen={handleCopyModalOpen}
-                handleDeleteModalOpen={handleDeleteModalOpen}
-                handleDownloadCsv={handleDownloadCsv}
-                handlePrintPdf={handlePrintPdf}
-                handleSnapshotModalOpen={handleSnapshotModalOpen}
-                handleHide={handleHide}
-              />
-            </Popup>
+            {projectContextOpen ? (
+              <Popup
+                trigger={
+                  <button>
+                    <FontAwesomeIcon
+                      icon={faEllipsisV}
+                      alt={`Show project context menu`}
+                    />
+                  </button>
+                }
+                position="bottom center"
+                offsetX={-100}
+                on="click"
+                closeOnDocumentClick
+                arrow={false}
+              >
+                <ProjectContextMenu
+                  project={project}
+                  handleCopyModalOpen={handleCopyModalOpen}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  handleDownloadCsv={handleDownloadCsv}
+                  handlePrintPdf={handlePrintPdf}
+                  handleSnapshotModalOpen={handleSnapshotModalOpen}
+                  handleHide={handleHide}
+                  setProjectContextOpen={setProjectContextOpen}
+                />
+              </Popup>
+            ) : null}
             <div style={{ display: "none" }}>
               <CSVLink
                 data={projectData.csv}

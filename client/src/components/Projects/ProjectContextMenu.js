@@ -39,7 +39,8 @@ const ProjectContextMenu = ({
   handleSnapshotModalOpen,
   handleDownloadCsv,
   handlePrintPdf,
-  handleHide
+  setProjectContextOpen
+  // handleHide
 }) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
@@ -68,7 +69,13 @@ const ProjectContextMenu = ({
         </li>
       )}
 
-      <li onClick={() => handlePrintPdf(project)} className={classes.listItem}>
+      <li
+        onClick={() => {
+          handlePrintPdf(project);
+          setProjectContextOpen(false);
+        }}
+        className={classes.listItem}
+      >
         <FontAwesomeIcon
           icon={faPrint}
           className={classes.listItemIcon}
@@ -162,7 +169,8 @@ ProjectContextMenu.propTypes = {
   handleSnapshotModalOpen: PropTypes.func,
   handleDownloadCsv: PropTypes.func,
   handlePrintPdf: PropTypes.func,
-  handleHide: PropTypes.func
+  handleHide: PropTypes.func,
+  setProjectContextOpen: PropTypes.func
 };
 
 export default ProjectContextMenu;
