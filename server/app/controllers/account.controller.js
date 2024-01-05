@@ -12,6 +12,7 @@ const accountForgotSchema = require("../schemas/account.forgotPassword");
 const accountResetSchema = require("../schemas/account.reset");
 const accountRoleSchema = require("../schemas/account.role");
 const accountConfirmEmail = require("../schemas/account.confirmEmail");
+const accountAuthorizationSchema = require("../schemas/account.authorization");
 
 const getAll = async (req, res) => {
   try {
@@ -113,6 +114,25 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const resp = await accountService.authenticate(email, password);
+    if (resp.isSuccess) {
+      req.user = resp.user;
+      next();
+    } else {
+      res.json(resp);
+    }
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const getAuthorization = async (req, res, next) => {
+  const { email, firstName, lastName } = req.body;
+  try {
+    const resp = await accountService.getAuthorization(
+      email,
+      firstName,
+      lastName
+    );
     if (resp.isSuccess) {
       req.user = resp.user;
       next();
@@ -249,6 +269,11 @@ module.exports = {
   login: [
     validate({ body: accountLoginSchema }),
     login,
+    validationErrorMiddleware
+  ],
+  getAuthorization: [
+    validate({ body: accountAuthorizationSchema }),
+    getAuthorization,
     validationErrorMiddleware
   ],
   put: [validate({ body: accountSchema }), put, validationErrorMiddleware],

@@ -2,8 +2,12 @@ import React, { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { createUseStyles } from "react-jss";
 import { NavLink } from "react-router-dom";
-import NavBarLogin from "./NavBarLogin";
+// import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
+
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "../Okta/LoginButton";
+import LogoutButton from "../Okta/LogoutButton";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -65,7 +69,8 @@ const useStyles = createUseStyles({
     }
   },
   userLogin: {
-    marginLeft: "auto"
+    marginLeft: "auto",
+    color: "white"
   },
   lastItem: {
     marginLeft: "2em",
@@ -99,14 +104,21 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
+  const { isAuthenticated, user } = useAuth0();
 
   const handleHamburgerMenuClick = () => {
     setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
   };
 
+  const getUserGreeting = () => (
+    <li className={classes.userLogin}>
+      {`${user.name} (${userContext.account ? userContext.account.id : ""})`}
+    </li>
+  );
+
   return (
     <ul className={classes.navbar}>
-      {account && account.id && (
+      {isAuthenticated && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
@@ -170,12 +182,25 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           Feedback
         </NavLink>
       </li>
-      <NavBarLogin
+      {/* <NavBarLogin
         account={account}
         classes={classes}
         navbarOpen={navbarOpen}
         handleHamburgerMenuClick={handleHamburgerMenuClick}
-      />
+      /> */}
+      {isAuthenticated ? (
+        <div
+          className={classes.userLogin}
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          {getUserGreeting(account)}
+          <LogoutButton />
+        </div>
+      ) : (
+        <div className={classes.userLogin}>
+          <LoginButton />
+        </div>
+      )}
     </ul>
   );
 };

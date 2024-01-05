@@ -328,6 +328,45 @@ const resetPassword = async ({ token, password }) => {
   }
 };
 
+// Used to get user information when user is already authenticated via Okta
+const getAuthorization = async (email, firstName, lastName) => {
+  let user = await selectByEmail(email);
+  if (!user) {
+    let registerResult = await register({ email, firstName, lastName });
+    if (registerResult.isSuccess) {
+      user = {
+        id: registerResult.id,
+        email,
+        firstName,
+        lastName,
+        isAdmin: false,
+        isSecurityAdmin: false
+      };
+    }
+  }
+
+  if (user) {
+    return {
+      isSuccess: true,
+      code: "AUTH_SUCCESS",
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        emailConfirmed: user.emailConfirmed,
+        isSecurityAdmin: user.isSecurityAdmin
+      }
+    };
+  }
+  return {
+    isSuccess: false,
+    code: "AUTH_NO_ACCOUNT",
+    reason: `No account found for email ${email}`
+  };
+};
+
 const authenticate = async (email, password) => {
   const user = await selectByEmail(email);
   if (!user) {
@@ -573,5 +612,6 @@ module.exports = {
   archiveUser,
   unarchiveUser,
   getAllArchivedUsers,
-  deleteUser
+  deleteUser,
+  getAuthorization
 };

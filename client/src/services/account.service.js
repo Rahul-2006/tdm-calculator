@@ -64,6 +64,16 @@ export const login = async (email, password) => {
   }
 };
 
+export const getAuthorization = async ({ email, firstName, lastName }) => {
+  const body = { email, firstName, lastName };
+  try {
+    const response = await axios.post(baseUrl + "/getauthorization", body);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const confirmRegister = async token => {
   const body = { token };
   const response = await axios.post(baseUrl + "/confirmRegister", body);

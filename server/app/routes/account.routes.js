@@ -26,6 +26,12 @@ router.post("/forgotPassword", accountController.forgotPassword);
 router.post("/resetPassword", accountController.resetPassword);
 
 router.post("/login/:email?", accountController.login, jwtSession.login);
+router.post(
+  "/getauthorization",
+  accountController.getAuthorization,
+  jwtSession.login
+);
+
 router.get("/logout", (req, res) => {
   console.log("logging out");
   req.logout();

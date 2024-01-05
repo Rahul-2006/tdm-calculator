@@ -7,6 +7,8 @@ import Footer from "./Footer";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import ChecklistModal from "../Checklist/ChecklistModal";
 
+import Auth0ProviderWithNavigate from "../../Auth0ProviderWithNavigate";
+
 const useStyles = createUseStyles({
   app: {
     flex: "1 0 auto",
@@ -26,17 +28,20 @@ const ClientAreaLayout = ({
 
   return (
     <div className={classes.app} id="app-container" ref={appContainerRef}>
-      <TermsAndConditionsModal
-        hasAcceptedTerms={hasAcceptedTerms}
-        onAcceptTerms={onAcceptTerms}
-      />
-      <ChecklistModal
-        checklistModalOpen={checklistModalOpen}
-        toggleChecklistModal={toggleChecklistModal}
-      />
-      <Header />
-      <Outlet />
-      <Footer toggleChecklistModal={toggleChecklistModal} />
+      <Auth0ProviderWithNavigate>
+        <TermsAndConditionsModal
+          hasAcceptedTerms={hasAcceptedTerms}
+          onAcceptTerms={onAcceptTerms}
+        />
+        <ChecklistModal
+          checklistModalOpen={checklistModalOpen}
+          toggleChecklistModal={toggleChecklistModal}
+        />
+        <Header />
+
+        <Outlet />
+        <Footer toggleChecklistModal={toggleChecklistModal} />
+      </Auth0ProviderWithNavigate>
     </div>
   );
 };
