@@ -13,6 +13,7 @@ const accountResetSchema = require("../schemas/account.reset");
 const accountRoleSchema = require("../schemas/account.role");
 const accountConfirmEmail = require("../schemas/account.confirmEmail");
 const accountAuthorizationSchema = require("../schemas/account.authorization");
+// const { validateAccessToken } = require("../../middleware/auth0-middleware");
 
 const getAll = async (req, res) => {
   try {
@@ -273,6 +274,7 @@ module.exports = {
   ],
   getAuthorization: [
     validate({ body: accountAuthorizationSchema }),
+    // validateAccessToken,
     getAuthorization,
     validationErrorMiddleware
   ],

@@ -5,7 +5,7 @@ const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   const handleLogin = async () => {
-    const result = await loginWithRedirect({
+    await loginWithRedirect({
       appState: {
         returnTo: "/profile"
       },
@@ -13,7 +13,6 @@ const LoginButton = () => {
         prompt: "login"
       }
     });
-    console.error(result);
   };
 
   return (

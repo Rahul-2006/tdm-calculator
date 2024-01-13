@@ -64,6 +64,17 @@ export const login = async (email, password) => {
   }
 };
 
+function setCookie(cname, cvalue, exminutes) {
+  const d = new Date();
+  d.setTime(d.getTime() + exminutes * 60 * 1000);
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = `${cname}=${cvalue};${expires};path=/`;
+}
+
+export const logout = async () => {
+  setCookie("jwt", "", 0);
+};
+
 export const getAuthorization = async ({ email, firstName, lastName }) => {
   const body = { email, firstName, lastName };
   try {

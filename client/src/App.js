@@ -56,6 +56,7 @@ const App = ({
   const userContext = useContext(UserContext);
   const account = userContext.account;
   // const { isLoading } = useAuth0();
+  // const updateAccount = userContext.updateAccount;
 
   const router = createBrowserRouter(
     createRoutesFromElements(

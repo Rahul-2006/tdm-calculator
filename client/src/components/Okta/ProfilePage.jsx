@@ -1,28 +1,22 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext } from "react";
+// import PropTypes from "prop-types";
 import * as accountService from "../../services/account.service";
+import { useAuth0 } from "@auth0/auth0-react";
 import UserContext from "../../contexts/UserContext";
 
 const ProfilePage = () => {
-  const { user } = useAuth0();
-  const userContext = useContext(UserContext);
-
-  const updateAccount = useCallback(
-    tdmUser => {
-      userContext.updateAccount(tdmUser);
-    },
-    [userContext]
-  );
+  const { user: oktaUser } = useAuth0();
+  const { updateAccount, account } = useContext(UserContext);
 
   useEffect(() => {
     // Use Okta profile info to get TDM Authorization info and
     // set jwt cookie.
     const getAuth = async () => {
-      if (user) {
+      if (oktaUser) {
         const loginResponse = await accountService.getAuthorization({
-          email: user.email,
-          lastName: user.nickname || user.name,
-          firstName: user.name
+          email: oktaUser.email,
+          lastName: oktaUser.nickname || oktaUser.name,
+          firstName: oktaUser.name
         });
         if (loginResponse.isSuccess) {
           updateAccount(loginResponse.user);
@@ -30,9 +24,10 @@ const ProfilePage = () => {
       }
     };
     getAuth();
-  }, [user, updateAccount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (!user) {
+  if (!oktaUser) {
     return null;
   }
 
@@ -55,32 +50,37 @@ const ProfilePage = () => {
           <div className="profile-grid">
             <div className="profile__header">
               <img
-                src={user.picture}
+                src={oktaUser.picture}
                 alt="Profile"
                 className="profile__avatar"
               />
               <div className="profile__headline">
-                <h2 className="profile__title">{user.name}</h2>
-                <span className="profile__description">{user.email}</span>
+                <h2 className="profile__title">{oktaUser.name}</h2>
+                <span className="profile__description">{oktaUser.email}</span>
               </div>
             </div>
             <div className="profile__details">
               <h2>Decoded ID Token</h2>
               <span className="profile__description">
-                {JSON.stringify(user, null, 2)}
+                {JSON.stringify(oktaUser, null, 2)}
               </span>
             </div>
           </div>
         </div>
-        {userContext && userContext.account && (
+        {account && (
           <div>
             <h1>TDM User</h1>
-            <span>id: {JSON.stringify(userContext, null, 2)}</span>
+            <span>id: {JSON.stringify(account, null, 2)}</span>
           </div>
         )}
       </div>
     </>
   );
 };
+
+// ProfilePage.propTypes = {
+//   account: PropTypes.shape(),
+//   updateAccount: PropTypes.func
+// };
 
 export default ProfilePage;
