@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
 
+import LoginButton from "../Okta/LoginButton";
+
 const useStyles = createUseStyles({
   navbar: {
     flexGrow: "1",
@@ -176,6 +178,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         navbarOpen={navbarOpen}
         handleHamburgerMenuClick={handleHamburgerMenuClick}
       />
+      <LoginButton />
     </ul>
   );
 };
