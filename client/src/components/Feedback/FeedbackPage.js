@@ -66,6 +66,7 @@ const useStyles = createUseStyles({
   }
 });
 
+//function to get projects for logged in user
 const GetUserProjects = email => {
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
