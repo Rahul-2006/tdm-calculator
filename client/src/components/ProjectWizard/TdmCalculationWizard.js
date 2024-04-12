@@ -6,7 +6,7 @@ import {
   useParams,
   useNavigate,
   useLocation,
-  unstable_useBlocker as useBlocker
+  useBlocker // Changed this, as the original code was a deprecated function in testing
 } from "react-router-dom";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";

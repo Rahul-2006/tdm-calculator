@@ -6,8 +6,7 @@ const useStyles = createUseStyles({
   result: {
     marginTop: "10px",
     marginBottom: "-10px",
-    padding: "0px",
-    fontSize: "17px"
+    padding: "0px"
   }
 });
 

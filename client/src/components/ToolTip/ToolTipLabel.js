@@ -122,8 +122,8 @@ const ToolTipLabel = ({
                   )
                 : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
               : description
-              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+                ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+                : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
           }
           data-class={classes.tooltip}
           data-for={id}
@@ -171,8 +171,8 @@ const ToolTipLabel = ({
                 )
               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
             : description
-            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
         }
         data-class={classes.tooltip}
         data-for={id}
