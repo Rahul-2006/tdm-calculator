@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
     height: "calc(100vh)",
     flexDirection: "column",
     "@media (max-height: 800px)": {
-      overflowY: "hidden",
+      overflow: "hidden",
       height: "auto"
     }
   }

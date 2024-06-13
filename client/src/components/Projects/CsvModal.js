@@ -64,10 +64,10 @@ const CsvModal = ({
     const projectSet = project
       ? [project]
       : projectCollection === "All"
-      ? projects
-      : projectCollection == "Filtered"
-      ? filteredProjects
-      : checkedProjects;
+        ? projects
+        : projectCollection == "Filtered"
+          ? filteredProjects
+          : checkedProjects;
     let csvData = null;
     csvData = await getCsvForProjects(projectSet, progressCallback);
     setLoading(false);

@@ -66,3 +66,5 @@ ToolTipIcon.propTypes = {
 };
 
 export default ToolTipIcon;
+
+// rgb(0, 46, 109)

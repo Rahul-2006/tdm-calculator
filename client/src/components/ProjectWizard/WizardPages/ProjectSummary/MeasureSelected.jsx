@@ -52,14 +52,14 @@ const MeasureSelected = props => {
           {rule.dataType === "boolean" || rule.dataType === "number"
             ? null
             : rule.dataType === "choice"
-            ? rule.choices.find(
-                choice => Number(choice.id) === Number(rule.value)
-              )
               ? rule.choices.find(
                   choice => Number(choice.id) === Number(rule.value)
-                ).name
-              : rule.value
-            : rule.value}
+                )
+                ? rule.choices.find(
+                    choice => Number(choice.id) === Number(rule.value)
+                  ).name
+                : rule.value
+              : rule.value}
         </div>
       </div>
       <div className={classes.pointsContainer}>

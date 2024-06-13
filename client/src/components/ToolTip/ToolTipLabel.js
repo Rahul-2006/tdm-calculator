@@ -4,7 +4,19 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faCircle } from "@fortawesome/free-solid-svg-icons";
+/**
+ * 
+ * Earned Points: Each TDM strategy has been assigned a point
+value a project applicant can select and implement to meet its
+Point Target. The selection of TDM strategies informs the total
+earned points. This should be referenced to determine when the
+project meets the Target Points.
+Target Points: The Point Target establishes the total number of
+points a project must meet by selecting from the list of TDM
+strategies. Target points are a function of Project Level and the
+total parking supply of a project.
 
+*/
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
     flexGrow: "1",
@@ -122,8 +134,8 @@ const ToolTipLabel = ({
                   )
                 : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
               : description
-              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+                ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+                : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
           }
           data-class={classes.tooltip}
           data-for={id}
@@ -142,7 +154,7 @@ const ToolTipLabel = ({
             <FontAwesomeIcon
               icon={faInfo}
               className={classes.faInfoIcon}
-              size="2xs"
+              size="lg"
             />
           </span>
         ) : null}
@@ -171,8 +183,8 @@ const ToolTipLabel = ({
                 )
               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
             : description
-            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
         }
         data-class={classes.tooltip}
         data-for={id}
